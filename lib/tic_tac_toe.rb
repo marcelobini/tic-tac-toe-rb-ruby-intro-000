@@ -4,22 +4,22 @@ class Tic
 
   def initialize
     #map of all places that are possible wins
-    @columns = [      
+    @columns = [
       [:a1,:a2,:a3],
       [:b1,:b2,:b3],
       [:c1,:c2,:c3],
-      
+
       [:a1,:b1,:c1],
       [:a2,:b2,:c2],
       [:a3,:b3,:c3],
-      
+
       [:a1,:b2,:c3],
       [:c1,:b2,:a3]
     ]
-    
+
     @cpu = rand() > 0.5 ? 'X' : 'O'
     @user = @cpu == 'X' ? 'O' : 'X'
-    
+
     @cpu_name = "Ruby"
     put_line
     puts "\n  RUBY TIC TAC TOE".purple
@@ -30,7 +30,7 @@ class Tic
 
     @user_score = 0
     @cpu_score = 0
-    
+
     start_game(@user == 'X')
   end
 
@@ -53,16 +53,16 @@ class Tic
     (1...20).each { |i| put_line }
     start_game(user_goes_first)
   end
-  
+
   def put_line
     puts ("-" * 80).gray
   end
-  
+
   def put_bar
     puts ("#" * 80).gray
     puts ("#" * 80).gray
   end
-  
+
   def draw_game
     puts ""
     puts " Wins: #{@cpu_name}:#{@cpu_score} #{@user_name}:#{@user_score}".gray
@@ -78,7 +78,7 @@ class Tic
     puts "    --- --- ---"
     puts " 3   #{@places[:a3].green} | #{@places[:b3].green} | #{@places[:c3].green} ".gray
   end
-  
+
   def cpu_turn
     move = cpu_find_move
     @places[move] = @cpu
@@ -86,7 +86,7 @@ class Tic
     puts " #{@cpu_name} marks #{move.to_s.upcase.green}".neon
     check_game(@user)
   end
-  
+
   def cpu_find_move
 
     # see if cpu can win
@@ -96,7 +96,7 @@ class Tic
         return empty_in_column column
       end
     end
-    
+
     # see if user can win
     #see if any columns already have 2 (user)
     @columns.each do |column|
@@ -104,14 +104,14 @@ class Tic
         return empty_in_column column
       end
     end
-    
+
     #see if any columns aready have 1 (cpu)
     @columns.each do |column|
       if times_in_column(column, @cpu) == 1
         return empty_in_column column
       end
     end
-    
+
     #no strategic spot found so just find a random empty
     k = @places.keys;
     i = rand(k.length)
@@ -122,10 +122,10 @@ class Tic
       @places.each { |k,v| return k if v == " " }
     end
   end
-  
+
   def times_in_column arr, item
     times = 0
-    arr.each do |i| 
+    arr.each do |i|
       times += 1 if @places[i] == item
       unless @places[i] == item || @places[i] == " "
         #oppisite piece is in column so column cannot be used for win.
@@ -135,15 +135,15 @@ class Tic
     end
     times
   end
-  
+
   def empty_in_column arr
-    arr.each do |i| 
+    arr.each do |i|
       if @places[i] == " "
         return i
       end
     end
   end
-  
+
   def user_turn
     put_line
     puts "\n  RUBY TIC TAC TOE".purple
@@ -174,27 +174,27 @@ class Tic
       wrong_input unless input == :exit
     end
   end
-  
+
   def wrong_input
     put_line
     puts " Please specify a move with the format 'A1' , 'B3' , 'C2' etc.".red
     user_turn
   end
-  
+
   def wrong_move
     put_line
     puts " You must choose an empty slot".red
     user_turn
   end
-  
+
   def moves_left
     @places.values.select{ |v| v == " " }.length
   end
-  
+
   def check_game(next_turn)
-  
+
     game_over = nil
-    
+
     @columns.each do |column|
       # see if cpu has won
       if times_in_column(column, @cpu) == 3
@@ -219,7 +219,7 @@ class Tic
         ask_to_play_again(true)
       end
     end
-    
+
     unless game_over
       if(moves_left > 0)
         if(next_turn == @user)
@@ -250,5 +250,5 @@ class Tic
     else ask_to_play_again(user_goes_first)
     end
   end
-  
+
 end
