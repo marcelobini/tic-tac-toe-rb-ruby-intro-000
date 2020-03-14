@@ -252,4 +252,3 @@ class Tic
   end
 
 end
-
