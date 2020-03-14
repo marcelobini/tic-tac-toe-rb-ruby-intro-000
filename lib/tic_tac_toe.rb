@@ -1,4 +1,4 @@
-require "color_text"
+
 
 class Tic
 
